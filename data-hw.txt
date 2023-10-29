@@ -1,0 +1,148 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+// Node Structure for Questions 1, 2, 3
+typedef struct node {
+    int data;
+    struct node* next;
+} node_t;
+
+// Student Structure for Questions 4, 5, 6, 7
+typedef struct student {
+    int student_number;
+    char name[50];
+    int age;
+    struct student* next;
+} student_t;
+
+// Utility functions for node_t linked list
+void add_node_to_beginning(node_t** head, int data) {
+    node_t* new_node = malloc(sizeof(node_t));
+    new_node->data = data;
+    new_node->next = *head;
+    *head = new_node;
+}
+
+void add_node_to_end(node_t** head, int data) {
+    node_t* new_node = malloc(sizeof(node_t));
+    new_node->data = data;
+    new_node->next = NULL;
+
+    if (*head == NULL) {
+        *head = new_node;
+    } else {
+        node_t* current = *head;
+        while (current->next) {
+            current = current->next;
+        }
+        current->next = new_node;
+    }
+}
+
+void swap_nodes(node_t* node1, node_t* node2) {
+    int temp = node1->data;
+    node1->data = node2->data;
+    node2->data = temp;
+}
+
+void sort_list(node_t** head) {
+    if (!head || !*head) return;
+
+    node_t* current = *head;
+    node_t* next = NULL;
+
+    while (current) {
+        next = current->next;
+
+        while (next) {
+            if (current->data < next->data) {
+                swap_nodes(current, next);
+            }
+            next = next->next;
+        }
+        current = current->next;
+    }
+}
+
+void free_node_list(node_t* head) {
+    while (head) {
+        node_t* temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
+// Utility functions for student_t linked list
+void add_student(student_t** head, student_t* new_student) {
+    if (!new_student) return;
+
+    new_student->next = NULL;
+    if (*head == NULL) {
+        *head = new_student;
+    } else {
+        student_t* current = *head;
+        while (current->next) {
+            current = current->next;
+        }
+        current->next = new_student;
+    }
+}
+
+student_t* search_student_by_name(student_t* head, const char* name) {
+    while (head) {
+        if (strcmp(head->name, name) == 0) {
+            return head;
+        }
+        head = head->next;
+    }
+    return NULL;
+}
+
+void delete_next_node_with_name(student_t* head, const char* name) {
+    student_t* current = search_student_by_name(head, name);
+    if (current && current->next) {
+        student_t* temp = current->next;
+        current->next = temp->next;
+        free(temp);
+    }
+}
+
+void print_longest_name(student_t* head) {
+    int max_length = 0;
+    char* longest_name = NULL;
+
+    while (head) {
+        int current_length = strlen(head->name);
+        if (current_length > max_length) {
+            max_length = current_length;
+            longest_name = head->name;
+        }
+        head = head->next;
+    }
+
+    if (longest_name) {
+        printf("The longest name in the list: %s\n", longest_name);
+        printf("Length: %d\n", max_length);
+    } else {
+        printf("List is empty!\n");
+    }
+}
+
+void free_student_list(student_t* head) {
+    while (head) {
+        student_t* temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
+int main() {
+    // TODO: Add implementation for each of the questions based on the described functions
+
+    printf("\nStudent: Omar Jalal Yousef Ayyash\n");
+    printf("Student No: 2010213580\n");
+
+    return 0;
+}
